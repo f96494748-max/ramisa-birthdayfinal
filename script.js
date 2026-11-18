@@ -1,8 +1,7 @@
 
-/* =================================
-   RAMISA BIRTHDAY WEBSITE
+/* RAMISA BIRTHDAY WEBSITE
    Made & Designed by Tusar
-================================= */
+*/
 
 let currentPage = 1;
 const totalPages = 7;
@@ -17,11 +16,11 @@ let micData = null;
 let animationFrameId = null;
 
 let blowFrames = 0;
-let blowThreshold = 0.055;
+let blowThreshold = 0.13;
+let ambientLevel = 0;
+let isCalibrating = false;
 
-/* =================================
-   AUDIO SYSTEM
-================================= */
+/* AUDIO */
 
 const sounds = {
   click: new Audio("button-click.mp3"),
@@ -39,24 +38,17 @@ Object.values(sounds).forEach(sound => {
 
 function playSound(name) {
   const sound = sounds[name];
-
   if (!sound) return;
 
   sound.currentTime = 0;
-
   sound.play().catch(() => {});
 }
 
-/* =================================
-   BACKGROUND MUSIC
-================================= */
+/* BACKGROUND MUSIC */
 
 function updateMusicButton() {
   const button = document.getElementById("musicToggle");
-
-  if (!button) return;
-
-  button.textContent = musicPlaying ? "♫" : "♪";
+  if (button) button.textContent = musicPlaying ? "♫" : "♪";
 }
 
 function startMusic() {
@@ -64,21 +56,17 @@ function startMusic() {
 
   bgMusic.volume = 0.45;
 
-  bgMusic.play()
-    .then(() => {
-      musicPlaying = true;
-      updateMusicButton();
-    })
-    .catch(() => {
-      musicPlaying = false;
-      updateMusicButton();
-    });
+  bgMusic.play().then(() => {
+    musicPlaying = true;
+    updateMusicButton();
+  }).catch(() => {
+    musicPlaying = false;
+    updateMusicButton();
+  });
 }
 
 function toggleMusic() {
   playSound("click");
-
-  if (!bgMusic) return;
 
   if (bgMusic.paused) {
     startMusic();
@@ -92,56 +80,40 @@ function toggleMusic() {
 document.getElementById("musicToggle")
   ?.addEventListener("click", toggleMusic);
 
-/* =================================
-   PAGE NAVIGATION
-================================= */
+/* PAGE NAVIGATION */
 
-function showPage(pageNumber) {
-  if (pageNumber < 1 || pageNumber > totalPages) return;
+function showPage(number) {
+  if (number < 1 || number > totalPages) return;
 
-  currentPage = pageNumber;
+  currentPage = number;
 
   document.querySelectorAll(".page").forEach(page => {
     page.classList.remove("active");
   });
 
-  const target = document.getElementById("page" + currentPage);
-
-  if (target) {
-    target.classList.add("active");
-  }
+  document.getElementById("page" + number)
+    ?.classList.add("active");
 
   const counter = document.getElementById("currentPage");
+  if (counter) counter.textContent = number;
 
-  if (counter) {
-    counter.textContent = currentPage;
+  const prev = document.getElementById("prevBtn");
+  const next = document.getElementById("nextBtn");
+
+  if (prev) {
+    prev.style.visibility = number === 1 ? "hidden" : "visible";
   }
 
-  const previousButton = document.getElementById("prevBtn");
-  const nextButton = document.getElementById("nextBtn");
-
-  if (previousButton) {
-    previousButton.style.visibility =
-      currentPage === 1 ? "hidden" : "visible";
+  if (next) {
+    next.style.visibility =
+      number === 7 || number === 2 ? "hidden" : "visible";
   }
 
-  if (nextButton) {
-    nextButton.style.visibility =
-      currentPage === 7 || currentPage === 2
-        ? "hidden"
-        : "visible";
-  }
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function nextPage() {
-  if (currentPage === 2 && !candleBlown) {
-    return;
-  }
+  if (currentPage === 2 && !candleBlown) return;
 
   playSound("transition");
   showPage(currentPage + 1);
@@ -152,29 +124,52 @@ function prevPage() {
   showPage(currentPage - 1);
 }
 
-/* =================================
-   START SURPRISE
-================================= */
+/* RESET CAKE */
+
+function resetCake() {
+  candleBlown = false;
+  blowFrames = 0;
+
+  document.querySelectorAll(".flame").forEach(flame => {
+    flame.classList.remove("off");
+  });
+
+  document.querySelectorAll(".smoke, .magic-particle").forEach(item => {
+    item.remove();
+  });
+
+  document.getElementById("wishMessage")
+    ?.classList.add("hidden");
+
+  document.querySelector("#page2 .next-btn")
+    ?.classList.add("hidden");
+
+  const text = document.getElementById("blowText");
+
+  if (text) {
+    text.textContent = "🎤 মাইক্রোফোনে ফুঁ দাও";
+    text.style.cursor = "default";
+    text.onclick = null;
+  }
+}
+
+/* START SURPRISE */
 
 function startSurprise() {
   playSound("click");
 
+  resetCake();
   startMusic();
-
   showPage(2);
-
   startMicrophone();
 }
 
-/* =================================
-   MICROPHONE SYSTEM
-================================= */
+/* MICROPHONE */
 
 async function startMicrophone() {
-  const blowText = document.getElementById("blowText");
+  const text = document.getElementById("blowText");
 
-  if (!navigator.mediaDevices ||
-      !navigator.mediaDevices.getUserMedia) {
+  if (!navigator.mediaDevices?.getUserMedia) {
     showManualOption();
     return;
   }
@@ -189,8 +184,7 @@ async function startMicrophone() {
     });
 
     audioContext = new (
-      window.AudioContext ||
-      window.webkitAudioContext
+      window.AudioContext || window.webkitAudioContext
     )();
 
     await audioContext.resume();
@@ -204,38 +198,21 @@ async function startMicrophone() {
 
     micData = new Uint8Array(analyser.fftSize);
 
-    if (blowText) {
-      blowText.textContent = "🎤 এবার মোমবাতির দিকে ফুঁ দাও!";
+    if (text) {
+      text.textContent = "🎤 মাইক্রোফোন প্রস্তুত হচ্ছে...";
     }
 
-    detectBlow();
+    calibrateMicrophone();
 
   } catch (error) {
-    console.log("Microphone unavailable:", error);
+    console.log("Microphone error:", error);
     showManualOption();
   }
 }
 
-function showManualOption() {
-  const blowText = document.getElementById("blowText");
+/* MEASURE AMBIENT SOUND */
 
-  if (blowText) {
-    blowText.textContent =
-      "মাইক্রোফোন কাজ করছে না? এখানে ট্যাপ করো 🕯️";
-
-    blowText.style.cursor = "pointer";
-
-    blowText.onclick = manualBlow;
-  }
-}
-
-/* =================================
-   BLOW DETECTION
-================================= */
-
-function detectBlow() {
-  if (!analyser || candleBlown) return;
-
+function getMicrophoneVolume() {
   analyser.getByteTimeDomainData(micData);
 
   let sum = 0;
@@ -245,15 +222,70 @@ function detectBlow() {
     sum += value * value;
   }
 
-  const rms = Math.sqrt(sum / micData.length);
+  return Math.sqrt(sum / micData.length);
+}
 
-  if (rms > blowThreshold) {
-    blowFrames++;
-  } else {
-    blowFrames = Math.max(0, blowFrames - 1);
+/* CALIBRATION */
+
+function calibrateMicrophone() {
+  if (!analyser || candleBlown) return;
+
+  isCalibrating = true;
+
+  const samples = [];
+  const startTime = performance.now();
+
+  function measure() {
+    if (!analyser || candleBlown) return;
+
+    samples.push(getMicrophoneVolume());
+
+    if (performance.now() - startTime < 1500) {
+      animationFrameId = requestAnimationFrame(measure);
+      return;
+    }
+
+    samples.sort((a, b) => a - b);
+
+    ambientLevel =
+      samples[Math.floor(samples.length * 0.75)] || 0;
+
+    // Ambient noise থেকে অনেক বেশি শব্দ প্রয়োজন
+    blowThreshold = Math.max(
+      0.13,
+      ambientLevel * 2.8
+    );
+
+    isCalibrating = false;
+
+    const text = document.getElementById("blowText");
+
+    if (text) {
+      text.textContent = "🎤 এবার মোমবাতির দিকে ফুঁ দাও!";
+    }
+
+    blowFrames = 0;
+    detectBlow();
   }
 
-  if (blowFrames >= 7) {
+  measure();
+}
+
+/* BLOW DETECTION */
+
+function detectBlow() {
+  if (!analyser || candleBlown || isCalibrating) return;
+
+  const volume = getMicrophoneVolume();
+
+  if (volume > blowThreshold) {
+    blowFrames++;
+  } else {
+    blowFrames = Math.max(0, blowFrames - 2);
+  }
+
+  // প্রায় ০.২৫ সেকেন্ড জোরে শব্দ থাকতে হবে
+  if (blowFrames >= 15) {
     extinguishCandles();
     return;
   }
@@ -261,65 +293,58 @@ function detectBlow() {
   animationFrameId = requestAnimationFrame(detectBlow);
 }
 
-/* =================================
-   MANUAL BLOW
-================================= */
+/* MANUAL OPTION */
 
-function manualBlow() {
-  if (candleBlown) return;
+function showManualOption() {
+  const text = document.getElementById("blowText");
 
-  extinguishCandles();
+  if (text) {
+    text.textContent =
+      "মাইক্রোফোন কাজ করছে না? এখানে ট্যাপ করো 🕯️";
+
+    text.style.cursor = "pointer";
+    text.onclick = manualBlow;
+  }
 }
 
-/* =================================
-   EXTINGUISH CANDLES
-================================= */
+function manualBlow() {
+  if (!candleBlown) extinguishCandles();
+}
+
+/* EXTINGUISH CANDLES */
 
 function extinguishCandles() {
   if (candleBlown) return;
 
   candleBlown = true;
 
+  stopMicrophone();
+
   playSound("blow");
 
-  setTimeout(() => {
-    playSound("sparkle");
-  }, 350);
+  setTimeout(() => playSound("sparkle"), 350);
 
   document.querySelectorAll(".flame").forEach(flame => {
     flame.classList.add("off");
-
-    const candle = flame.parentElement;
-
-    createSmoke(candle);
+    createSmoke(flame.parentElement);
   });
 
   createMagicEffect();
 
-  const blowText = document.getElementById("blowText");
-  const wishMessage = document.getElementById("wishMessage");
+  const text = document.getElementById("blowText");
+  const wish = document.getElementById("wishMessage");
+  const button = document.querySelector("#page2 .next-btn");
 
-  if (blowText) {
-    blowText.textContent = "ইয়েই! তোমার ইচ্ছাটা পূরণ হোক! 🎉";
-    blowText.onclick = null;
+  if (text) {
+    text.textContent = "ইয়েই! তোমার ইচ্ছাটা পূরণ হোক! 🎉";
+    text.onclick = null;
   }
 
-  if (wishMessage) {
-    wishMessage.classList.remove("hidden");
-  }
-
-  const nextButton = document.querySelector("#page2 .next-btn");
-
-  if (nextButton) {
-    nextButton.classList.remove("hidden");
-  }
-
-  stopMicrophone();
+  wish?.classList.remove("hidden");
+  button?.classList.remove("hidden");
 }
 
-/* =================================
-   STOP MICROPHONE
-================================= */
+/* STOP MICROPHONE */
 
 function stopMicrophone() {
   if (animationFrameId) {
@@ -334,42 +359,34 @@ function stopMicrophone() {
 
   if (audioContext && audioContext.state !== "closed") {
     audioContext.close();
-    audioContext = null;
   }
 
+  audioContext = null;
   analyser = null;
   micData = null;
 }
 
-/* =================================
-   SMOKE EFFECT
-================================= */
+/* SMOKE */
 
 function createSmoke(candle) {
   for (let i = 0; i < 5; i++) {
     const smoke = document.createElement("span");
 
     smoke.className = "smoke";
-
     smoke.style.left = (35 + Math.random() * 30) + "%";
     smoke.style.animationDelay = (i * 0.15) + "s";
 
     candle.appendChild(smoke);
 
-    setTimeout(() => {
-      smoke.remove();
-    }, 3000);
+    setTimeout(() => smoke.remove(), 3000);
   }
 }
 
-/* =================================
-   MAGIC PARTICLES
-================================= */
+/* MAGIC EFFECT */
 
 function createMagicEffect() {
-  const cakeArea = document.getElementById("cakeArea");
-
-  if (!cakeArea) return;
+  const area = document.getElementById("cakeArea");
+  if (!area) return;
 
   const symbols = ["✨", "💗", "⭐", "🌸", "💕"];
 
@@ -377,77 +394,57 @@ function createMagicEffect() {
     const particle = document.createElement("span");
 
     particle.className = "magic-particle";
-
     particle.textContent =
       symbols[Math.floor(Math.random() * symbols.length)];
 
     particle.style.left = Math.random() * 100 + "%";
     particle.style.top = (40 + Math.random() * 60) + "%";
+    particle.style.animationDelay = Math.random() + "s";
 
-    particle.style.animationDelay =
-      (Math.random() * 1.2) + "s";
+    area.appendChild(particle);
 
-    cakeArea.appendChild(particle);
-
-    setTimeout(() => {
-      particle.remove();
-    }, 3500);
+    setTimeout(() => particle.remove(), 3500);
   }
 }
 
-/* =================================
-   FLOATING HEARTS
-================================= */
+/* FLOATING HEARTS */
 
 function createHeart() {
   const container = document.getElementById("hearts");
-
   if (!container) return;
 
   const heart = document.createElement("span");
 
   heart.className = "heart";
   heart.textContent = "♥";
-
   heart.style.left = Math.random() * 100 + "%";
   heart.style.fontSize = (12 + Math.random() * 18) + "px";
   heart.style.animationDuration = (5 + Math.random() * 5) + "s";
 
   container.appendChild(heart);
 
-  setTimeout(() => {
-    heart.remove();
-  }, 10000);
+  setTimeout(() => heart.remove(), 10000);
 }
 
 setInterval(createHeart, 700);
 
-/* =================================
-   MESSAGE CARDS
-================================= */
+/* MESSAGE CARDS */
 
 function openCard(card) {
   playSound("click");
-
   card.classList.toggle("flipped");
 }
 
-/* =================================
-   GIFT OPENING
-================================= */
+/* GIFTS */
 
 function openGift(gift) {
   if (gift.classList.contains("opened")) return;
 
   playSound("gift");
-
   gift.classList.add("opened");
 
-  const message = gift.querySelector(".gift-message");
-
-  if (message) {
-    message.classList.remove("hidden");
-  }
+  gift.querySelector(".gift-message")
+    ?.classList.remove("hidden");
 
   createGiftMagic(gift);
 }
@@ -459,7 +456,6 @@ function createGiftMagic(gift) {
     const particle = document.createElement("span");
 
     particle.className = "magic-particle";
-
     particle.textContent =
       symbols[Math.floor(Math.random() * symbols.length)];
 
@@ -468,21 +464,14 @@ function createGiftMagic(gift) {
 
     gift.appendChild(particle);
 
-    setTimeout(() => {
-      particle.remove();
-    }, 3000);
+    setTimeout(() => particle.remove(), 3000);
   }
 }
 
-/* =================================
-   INITIAL SETTINGS
-================================= */
+/* INITIAL SETTINGS */
 
 document.addEventListener("DOMContentLoaded", () => {
+  resetCake();
   showPage(1);
   updateMusicButton();
 });
-
-/* =================================
-   END
-================================= */
