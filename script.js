@@ -16,7 +16,7 @@ let micData = null;
 let animationFrameId = null;
 
 let blowFrames = 0;
-let blowThreshold = 0.13;
+let blowThreshold = 0.035;
 let ambientLevel = 0;
 let isCalibrating = false;
 
@@ -251,10 +251,10 @@ function calibrateMicrophone() {
       samples[Math.floor(samples.length * 0.75)] || 0;
 
     // Ambient noise থেকে অনেক বেশি শব্দ প্রয়োজন
-    blowThreshold = Math.max(
-      0.13,
-      ambientLevel * 2.8
-    );
+    blowThreshold = Math.min(
+  0.09,
+  Math.max(0.025, ambientLevel * 1.8)
+);
 
     isCalibrating = false;
 
@@ -285,7 +285,7 @@ function detectBlow() {
   }
 
   // প্রায় ০.২৫ সেকেন্ড জোরে শব্দ থাকতে হবে
-  if (blowFrames >= 15) {
+  if (blowFrames >= 8) {
     extinguishCandles();
     return;
   }
