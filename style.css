@@ -1,0 +1,827 @@
+/* =====================================
+   RAMISA BIRTHDAY WEBSITE
+   Main Design & Styling
+===================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+:root {
+  --pink: #f8dce7;
+  --soft-pink: #fff1f6;
+  --deep-pink: #d77b9d;
+  --dark-pink: #a84f74;
+  --cream: #fffaf8;
+  --text: #684652;
+  --white: #ffffff;
+  --shadow: 0 15px 40px rgba(176, 107, 139, 0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 20% 15%, #fff8fb 0%, transparent 35%),
+    radial-gradient(circle at 80% 85%, #fce8f1 0%, transparent 35%),
+    linear-gradient(135deg, #fff6f9, #fceaf2, #fff9f7);
+  color: var(--text);
+  font-family: 'Hind Siliguri', sans-serif;
+}
+
+/* =====================================
+   GENERAL
+===================================== */
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.website {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+.page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 75px 22px 110px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  animation: pageAppear 0.8s ease;
+}
+
+.page.active {
+  display: flex;
+}
+
+.content {
+  width: 100%;
+  max-width: 650px;
+  margin: auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes pageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.small-title {
+  color: var(--deep-pink);
+  letter-spacing: 2px;
+  font-size: 13px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-family: 'Playfair Display', serif;
+}
+
+h1 {
+  font-family: 'Hind Siliguri', sans-serif;
+  font-size: clamp(25px, 6vw, 39px);
+  font-weight: 600;
+  color: var(--dark-pink);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+h2 {
+  color: var(--dark-pink);
+}
+
+.description {
+  max-width: 450px;
+  margin: 0 auto 25px;
+  line-height: 2;
+  font-size: 15px;
+  color: #896878;
+}
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+.primary-btn {
+  padding: 13px 30px;
+  border-radius: 50px;
+  color: white;
+  font-size: 15px;
+  background: linear-gradient(135deg, #e6a3bd, #d77b9d);
+  box-shadow: 0 8px 22px rgba(205, 112, 151, 0.22);
+  transition: 0.3s ease;
+  margin-top: 18px;
+}
+
+.primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(205, 112, 151, 0.3);
+}
+
+.primary-btn:active {
+  transform: scale(0.96);
+}
+
+/* =====================================
+   MUSIC BUTTON
+===================================== */
+
+.music-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 999;
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--dark-pink);
+  font-size: 20px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+/* =====================================
+   PAGE 1 - HERO
+===================================== */
+
+.hero-frame {
+  width: min(75%, 280px);
+  margin: 25px auto;
+  padding: 12px 12px 18px;
+  background: white;
+  box-shadow: 0 12px 35px rgba(159, 99, 129, 0.18);
+  transform: rotate(-2deg);
+  border-radius: 4px;
+}
+
+.hero-image {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+
+.hero-frame::after {
+  content: '♡';
+  display: block;
+  font-size: 20px;
+  color: #d78ba9;
+  margin-top: 8px;
+}
+
+/* =====================================
+   PAGE 2 - CAKE
+===================================== */
+
+.cake-area {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  margin: 30px auto 15px;
+}
+
+.cake {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 235px;
+  height: 140px;
+}
+
+.cake-layer {
+  position: absolute;
+  width: 100%;
+  border-radius: 16px 16px 10px 10px;
+  background: linear-gradient(180deg, #ffdce8, #f3abc8);
+  border: 1px solid #f3bfd3;
+  box-shadow: 0 5px 10px rgba(195, 114, 149, 0.12);
+}
+
+.layer-one {
+  height: 62px;
+  bottom: 45px;
+}
+
+.layer-two {
+  height: 50px;
+  bottom: 0;
+  background: linear-gradient(180deg, #f4bfd5, #e99fbd);
+}
+
+.cake-base {
+  position: absolute;
+  bottom: -8px;
+  left: -10px;
+  width: 255px;
+  height: 15px;
+  background: #fff0f6;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(190, 115, 151, 0.18);
+}
+
+.cake-top {
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 235px;
+  height: 35px;
+  border-radius: 50%;
+  background: #fff0f6;
+  border: 2px solid #f4c3d8;
+  z-index: 2;
+}
+
+.candles {
+  position: absolute;
+  width: 160px;
+  height: 130px;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.candle {
+  position: absolute;
+  width: 12px;
+  height: 62px;
+  bottom: 0;
+  border-radius: 4px 4px 2px 2px;
+  background: repeating-linear-gradient(
+    45deg,
+    #fff5f8 0px,
+    #fff5f8 5px,
+    #f5bdd4 5px,
+    #f5bdd4 9px
+  );
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+}
+
+.candle-left {
+  left: 25px;
+  height: 52px;
+}
+
+.candle-middle {
+  left: 74px;
+  height: 72px;
+}
+
+.candle-right {
+  right: 25px;
+  height: 52px;
+}
+
+.flame {
+  position: absolute;
+  width: 14px;
+  height: 22px;
+  top: -24px;
+  left: -1px;
+  background: radial-gradient(
+    ellipse at 50% 65%,
+    #fff8b5 0%,
+    #ffd86e 30%,
+    #ff9d43 60%,
+    #ff6b3d 100%
+  );
+  border-radius: 50% 50% 45% 45%;
+  transform-origin: bottom center;
+  filter: drop-shadow(0 0 8px rgba(255, 173, 67, 0.7));
+  animation: flameFlicker 0.16s infinite alternate;
+}
+
+@keyframes flameFlicker {
+  0% {
+    transform: rotate(-3deg) scale(1);
+  }
+  100% {
+    transform: rotate(4deg) scale(1.08);
+  }
+}
+
+/* Flame extinguished */
+
+.cake-area.blown .flame {
+  animation: flameOut 0.3s ease forwards;
+}
+
+@keyframes flameOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.1) translateY(8px);
+  }
+}
+
+.blow-text {
+  color: var(--deep-pink);
+  font-size: 15px;
+  animation: gentlePulse 2s infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.wish-message {
+  margin-top: 20px;
+  font-size: 19px;
+  color: var(--dark-pink);
+  animation: pageAppear 1s ease;
+}
+
+/* =====================================
+   PAGE 3 - PHOTO GALLERY
+===================================== */
+
+.photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 30px auto;
+  max-width: 450px;
+}
+
+.polaroid {
+  background: #fff;
+  padding: 10px 10px 18px;
+  box-shadow: 0 8px 24px rgba(171, 112, 145, 0.15);
+  border-radius: 3px;
+  transition: transform 0.4s ease;
+}
+
+.polaroid:nth-child(odd) {
+  transform: rotate(-3deg);
+}
+
+.polaroid:nth-child(even) {
+  transform: rotate(3deg);
+}
+
+.polaroid:hover {
+  transform: rotate(0) translateY(-5px) scale(1.03);
+}
+
+.polaroid img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  display: block;
+}
+
+.polaroid p {
+  font-size: 12px;
+  color: #987287;
+  margin-top: 12px;
+}
+
+/* =====================================
+   PAGE 4 - LETTER
+===================================== */
+
+.letter-box {
+  background: rgba(255, 255, 255, 0.75);
+  padding: 30px 25px;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  text-align: left;
+  line-height: 2.1;
+  margin: 25px auto;
+  border: 1px solid rgba(232, 183, 206, 0.4);
+  position: relative;
+}
+
+.letter-box::before {
+  content: '♡';
+  position: absolute;
+  top: -17px;
+  right: 20px;
+  color: #df98b7;
+  font-size: 28px;
+}
+
+.letter-box p {
+  margin-bottom: 15px;
+}
+
+/* =====================================
+   PAGE 5 - MESSAGE CARDS
+===================================== */
+
+.message-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  max-width: 420px;
+  margin: 30px auto;
+}
+
+.message-card {
+  height: 165px;
+  position: relative;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 15px;
+  backface-visibility: hidden;
+  transition: transform 0.7s ease;
+  box-shadow: var(--shadow);
+}
+
+.card-front {
+  background: linear-gradient(145deg, #ffeaf2, #f5cddd);
+  color: var(--dark-pink);
+  font-size: 35px;
+}
+
+.card-back {
+  background: white;
+  color: #a65d7e;
+  font-size: 14px;
+  line-height: 1.8;
+  transform: rotateY(180deg);
+}
+
+.message-card.open .card-front {
+  transform: rotateY(180deg);
+}
+
+.message-card.open .card-back {
+  transform: rotateY(0);
+}
+
+/* =====================================
+   PAGE 6 - GIFTS
+===================================== */
+
+.gift-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 35px auto;
+}
+
+.gift {
+  padding: 18px 8px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow);
+  font-size: 38px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.gift:hover {
+  transform: translateY(-5px);
+}
+
+.gift p {
+  font-size: 12px;
+  margin-top: 10px;
+  color: var(--deep-pink);
+}
+
+.gift-message {
+  font-size: 12px;
+  color: var(--dark-pink);
+  margin-top: 12px;
+  line-height: 1.7;
+  animation: pageAppear 0.5s ease;
+}
+
+/* =====================================
+   PAGE 7 - FINAL
+===================================== */
+
+.final-frame {
+  max-width: 280px;
+  margin: 25px auto;
+  padding: 12px 12px 20px;
+  background: white;
+  box-shadow: 0 15px 35px rgba(174, 105, 141, 0.2);
+  transform: rotate(2deg);
+}
+
+.final-frame img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
+.final-love {
+  font-size: 20px;
+  margin: 25px 0;
+  line-height: 1.8;
+}
+
+.credit {
+  font-family: 'Playfair Display', serif;
+  color: #b17b96;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  margin-top: 50px;
+}
+
+/* =====================================
+   FLOATING HEARTS
+===================================== */
+
+.hearts {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heart {
+  position: absolute;
+  bottom: -30px;
+  color: rgba(221, 138, 174, 0.3);
+  animation: heartFloat linear forwards;
+}
+
+@keyframes heartFloat {
+  from {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  to {
+    transform: translateY(-110vh) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* =====================================
+   PAGE COUNTER
+===================================== */
+
+.page-counter {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #b17b96;
+  font-size: 13px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 8px 18px;
+  border-radius: 30px;
+  backdrop-filter: blur(8px);
+}
+
+/* =====================================
+   NAVIGATION
+===================================== */
+
+.navigation {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 100;
+}
+
+.navigation button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--deep-pink);
+  font-size: 20px;
+  box-shadow: var(--shadow);
+  transition: 0.3s;
+}
+
+.navigation button:hover {
+  background: var(--deep-pink);
+  color: white;
+}
+
+/* =====================================
+   MOBILE RESPONSIVE
+===================================== */
+
+@media (max-width: 480px) {
+
+  .page {
+    padding: 65px 18px 100px;
+  }
+
+  h1 {
+    font-size: 27px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .hero-frame {
+    width: 78%;
+  }
+
+  .hero-image {
+    height: 290px;
+  }
+
+  .cake-area {
+    transform: scale(0.92);
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  .photo-gallery {
+    gap: 15px;
+  }
+
+  .polaroid img {
+    height: 140px;
+  }
+
+  .message-card {
+    height: 150px;
+  }
+
+  .gift-container {
+    gap: 8px;
+  }
+
+  .gift {
+    padding: 14px 5px;
+    font-size: 30px;
+  }
+
+  .letter-box {
+    padding: 25px 18px;
+  }
+
+  .final-frame img {
+    height: 290px;
+  }
+
+  .navigation {
+    right: 12px;
+    bottom: 18px;
+  }
+
+  .navigation button {
+    width: 38px;
+    height: 38px;
+  }
+
+  .page-counter {
+    bottom: 23px;
+    left: 18px;
+    transform: none;
+  }
+}
+
+/* =====================================
+   REDUCED MOTION SUPPORT
+===================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* =====================================
+   CANDLE SMOKE EFFECT
+===================================== */
+
+.smoke {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  left: 50%;
+  top: -22px;
+  border-radius: 50%;
+  background: rgba(210, 205, 215, 0.45);
+  filter: blur(4px);
+  pointer-events: none;
+  animation: smokeRise 2.2s ease-out forwards;
+}
+
+@keyframes smokeRise {
+  0% {
+    opacity: 0.6;
+    transform: translateY(0) scale(0.6);
+  }
+
+  40% {
+    opacity: 0.4;
+    transform: translate(-8px, -20px) scale(1.5);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(12px, -65px) scale(2.6);
+  }
+}
+
+/* =====================================
+   MAGIC PARTICLES
+===================================== */
+
+.magic-particle {
+  position: absolute;
+  font-size: 15px;
+  pointer-events: none;
+  animation: magicRise 2.5s ease-out forwards;
+  z-index: 10;
+}
+
+@keyframes magicRise {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(10px);
+  }
+
+  20% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.5) translateY(-100px) rotate(90deg);
+  }
+}
+
+/* =====================================
+   OPENED GIFT
+===================================== */
+
+.gift.opened {
+  background: linear-gradient(145deg, #fff4f8, #ffe2ed);
+  box-shadow: 0 0 25px rgba(223, 151, 183, 0.25);
+}
+
+/* =====================================
+   WISH REVEAL
+===================================== */
+
+.wish-message {
+  animation: wishReveal 1.2s ease both;
+}
+
+@keyframes wishReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
