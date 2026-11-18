@@ -1,11 +1,21 @@
 
-let currentPage = 1;
+"use strict";
+
+/* ==============================
+   RAMISA BIRTHDAY WEBSITE
+   Complete JavaScript
+================================ */
+
+let currentPageNumber = 1;
 const totalPages = 7;
 
 let candleBlown = false;
 let candleTimer = null;
+let windTimer = null;
 
-const sounds = {
+let musicStarted = false;
+
+const soundFiles = {
   click: "button-click.mp3",
   transition: "page-transition.mp3",
   blow: "candle-blow.mp3",
@@ -13,22 +23,42 @@ const sounds = {
   gift: "gift-open.mp3"
 };
 
+/* ==============================
+   SOUND EFFECTS
+================================ */
+
 function playSound(name) {
-  const sound = new Audio(sounds[name]);
-  sound.volume = 0.7;
-  sound.play().catch(() => {});
+  const file = soundFiles[name];
+
+  if (!file) return;
+
+  const audio = new Audio(file);
+  audio.volume = 0.65;
+
+  audio.play().catch(() => {});
 }
+
+/* ==============================
+   BACKGROUND MUSIC
+================================ */
 
 function startMusic() {
   const music = document.getElementById("bgMusic");
-  if (music) {
-    music.volume = 0.35;
-    music.play().catch(() => {});
-  }
+
+  if (!music) return;
+
+  music.volume = 0.35;
+
+  music.play()
+    .then(() => {
+      musicStarted = true;
+    })
+    .catch(() => {});
 }
 
 function toggleMusic() {
   const music = document.getElementById("bgMusic");
+
   if (!music) return;
 
   if (music.paused) {
@@ -36,7 +66,13 @@ function toggleMusic() {
   } else {
     music.pause();
   }
+
+  playSound("click");
 }
+
+/* ==============================
+   PAGE NAVIGATION
+================================ */
 
 function showPage(pageNumber) {
   if (pageNumber < 1 || pageNumber > totalPages) return;
@@ -45,90 +81,135 @@ function showPage(pageNumber) {
     page.classList.remove("active");
   });
 
-  const page = document.getElementById("page" + pageNumber);
-  if (page) page.classList.add("active");
+  const selectedPage = document.getElementById("page" + pageNumber);
 
-  currentPage = pageNumber;
+  if (!selectedPage) return;
 
-  const counter = document.getElementById("pageCounter");
+  selectedPage.classList.add("active");
+  currentPageNumber = pageNumber;
+
+  const counter = document.getElementById("currentPage");
+
   if (counter) {
-    counter.textContent = currentPage + " / " + totalPages;
+    counter.textContent = pageNumber + " / " + totalPages;
   }
 
+  const previousButton = document.getElementById("prevBtn");
   const nextButton = document.getElementById("nextBtn");
-  const prevButton = document.getElementById("prevBtn");
+
+  if (previousButton) {
+    previousButton.style.display =
+      pageNumber === 1 ? "none" : "block";
+  }
 
   if (nextButton) {
     nextButton.style.display =
-      currentPage === 2 || currentPage === totalPages ? "none" : "block";
+      pageNumber === 1 ||
+      pageNumber === 2 ||
+      pageNumber === totalPages
+        ? "none"
+        : "block";
   }
 
-  if (prevButton) {
-    prevButton.style.display =
-      currentPage === 1 ? "none" : "block";
+  if (pageNumber !== 2) {
+    clearTimeout(candleTimer);
+    clearTimeout(windTimer);
   }
 }
 
 function nextPage() {
-  if (currentPage < totalPages) {
-    playSound("transition");
-    showPage(currentPage + 1);
-  }
+  if (currentPageNumber >= totalPages) return;
+
+  playSound("transition");
+  showPage(currentPageNumber + 1);
 }
 
 function prevPage() {
-  if (currentPage > 1) {
-    playSound("transition");
-    showPage(currentPage - 1);
-  }
+  if (currentPageNumber <= 1) return;
+
+  playSound("transition");
+  showPage(currentPageNumber - 1);
 }
+
+/* ==============================
+   START BIRTHDAY SURPRISE
+================================ */
 
 function startSurprise() {
   playSound("click");
+
   resetCake();
   startMusic();
+
   showPage(2);
 
-  clearTimeout(candleTimer);
-
-  // ৫ সেকেন্ড মোমবাতি জ্বলবে
+  // মোমবাতি ৫ সেকেন্ড জ্বলবে
   candleTimer = setTimeout(() => {
-    if (currentPage === 2 && !candleBlown) {
-      createWindEffect();
 
-      setTimeout(() => {
+    if (currentPageNumber !== 2 || candleBlown) return;
+
+    createWindEffect();
+
+    windTimer = setTimeout(() => {
+      if (currentPageNumber === 2) {
         extinguishCandles();
-      }, 650);
-    }
+      }
+    }, 650);
+
   }, 5000);
 }
 
+/* ==============================
+   WIND EFFECT
+================================ */
+
 function createWindEffect() {
   const cakeArea = document.getElementById("cakeArea");
+
   if (!cakeArea) return;
 
   const wind = document.createElement("div");
+
   wind.textContent = "💨";
-  wind.style.position = "absolute";
-  wind.style.left = "-65px";
-  wind.style.top = "35%";
-  wind.style.fontSize = "65px";
-  wind.style.zIndex = "20";
-  wind.style.pointerEvents = "none";
+
+  Object.assign(wind.style, {
+    position: "absolute",
+    left: "-60px",
+    top: "30%",
+    fontSize: "60px",
+    zIndex: "20",
+    pointerEvents: "none"
+  });
 
   cakeArea.appendChild(wind);
 
-  wind.animate([
-    { transform: "translateX(0) scale(.7)", opacity: 0 },
-    { transform: "translateX(100px) scale(1.2)", opacity: 1 },
-    { transform: "translateX(300px) scale(1.5)", opacity: 0 }
-  ], {
-    duration: 850,
-    easing: "ease-out"
-  });
+  wind.animate(
+    [
+      {
+        transform: "translateX(0) scale(.7)",
+        opacity: 0
+      },
+      {
+        transform: "translateX(130px) scale(1.2)",
+        opacity: 1
+      },
+      {
+        transform: "translateX(300px) scale(1.5)",
+        opacity: 0
+      }
+    ],
+    {
+      duration: 850,
+      easing: "ease-out"
+    }
+  );
 
   setTimeout(() => wind.remove(), 900);
 }
+
+/* ==============================
+   EXTINGUISH CANDLES
+================================ */
 
 function extinguishCandles() {
   if (candleBlown) return;
@@ -141,125 +222,214 @@ function extinguishCandles() {
     playSound("sparkle");
   }, 350);
 
-  document.querySelectorAll(".flame").forEach(flame => {
+  document.querySelectorAll("#cakeArea .flame").forEach(flame => {
     flame.classList.add("off");
     createSmoke(flame.parentElement);
   });
 
   createMagicEffect();
 
-  const text = document.getElementById("blowText");
-  const wish = document.getElementById("wishMessage");
-  const button = document.querySelector("#page2 .next-btn");
+  const blowText = document.getElementById("blowText");
+  const wishMessage = document.getElementById("wishMessage");
+  const nextButton = document.querySelector("#page2 .next-btn");
 
-  if (text) {
-    text.textContent = "ইয়েই! তোমার ইচ্ছাটা পূরণ হোক! 🎉";
-    text.onclick = null;
+  if (blowText) {
+    blowText.textContent = "ইয়েই! তোমার ইচ্ছাটা পূরণ হোক! 🎉";
   }
 
-  if (wish) wish.classList.remove("hidden");
-  if (button) button.classList.remove("hidden");
+  if (wishMessage) {
+    wishMessage.classList.remove("hidden");
+  }
+
+  if (nextButton) {
+    nextButton.classList.remove("hidden");
+  }
 }
+
+/* ==============================
+   SMOKE EFFECT
+================================ */
 
 function createSmoke(parent) {
   if (!parent) return;
 
   const smoke = document.createElement("div");
+
   smoke.className = "smoke";
   smoke.textContent = "☁";
+
   parent.appendChild(smoke);
 
-  setTimeout(() => smoke.remove(), 1800);
+  setTimeout(() => {
+    smoke.remove();
+  }, 1600);
 }
 
+/* ==============================
+   MAGIC EFFECT
+================================ */
+
 function createMagicEffect() {
-  const area = document.getElementById("cakeArea") || document.body;
+  const area = document.getElementById("cakeArea");
 
-  for (let i = 0; i < 25; i++) {
+  if (!area) return;
+
+  const symbols = ["✨", "💖", "⭐", "💕"];
+
+  for (let i = 0; i < 18; i++) {
     const particle = document.createElement("span");
-    particle.className = "magic-particle";
-    particle.textContent = ["✨", "💖", "⭐", "💕"][i % 4];
 
-    particle.style.left = Math.random() * 100 + "%";
-    particle.style.top = Math.random() * 100 + "%";
+    particle.className = "magic-particle";
+    particle.textContent = symbols[i % symbols.length];
+
+    particle.style.left = Math.random() * 90 + "%";
+    particle.style.top = Math.random() * 90 + "%";
 
     area.appendChild(particle);
 
-    setTimeout(() => particle.remove(), 2200);
+    setTimeout(() => {
+      particle.remove();
+    }, 2100);
   }
 }
 
+/* ==============================
+   HEART ANIMATION
+================================ */
+
 function createHeart() {
+  if (document.hidden) return;
+
   const heart = document.createElement("div");
+
   heart.className = "heart";
   heart.textContent = "💗";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+  heart.style.left = Math.random() * 95 + "vw";
+  heart.style.animationDuration =
+    4 + Math.random() * 2 + "s";
 
   document.body.appendChild(heart);
 
-  setTimeout(() => heart.remove(), 6000);
+  setTimeout(() => {
+    heart.remove();
+  }, 6500);
 }
+
+/* ==============================
+   PAGE 5 - FLIP CARDS
+================================ */
 
 function openCard(card) {
+  if (!card) return;
+
   playSound("click");
-  card.classList.toggle("opened");
+
+  card.classList.toggle("flipped");
 }
 
+/* ==============================
+   PAGE 6 - OPEN GIFTS
+================================ */
+
 function openGift(gift) {
-  if (gift.classList.contains("opened")) return;
+  if (!gift) return;
+
+  const message = gift.querySelector(".gift-message");
+
+  if (!message) return;
+
+  const alreadyOpened = gift.classList.contains("opened");
+
+  if (alreadyOpened) return;
 
   gift.classList.add("opened");
+
+  message.classList.remove("hidden");
+
   playSound("gift");
 
   createGiftMagic(gift);
 }
 
+/* ==============================
+   GIFT SPARKLE EFFECT
+================================ */
+
 function createGiftMagic(gift) {
-  for (let i = 0; i < 12; i++) {
+  const symbols = ["✨", "⭐", "💖"];
+
+  for (let i = 0; i < 6; i++) {
     const sparkle = document.createElement("span");
-    sparkle.textContent = "✨";
-    sparkle.style.position = "absolute";
-    sparkle.style.left = Math.random() * 100 + "%";
-    sparkle.style.top = Math.random() * 100 + "%";
-    sparkle.style.pointerEvents = "none";
+
+    sparkle.textContent = symbols[i % symbols.length];
+
+    Object.assign(sparkle.style, {
+      position: "absolute",
+      left: Math.random() * 85 + "%",
+      top: Math.random() * 70 + "%",
+      pointerEvents: "none",
+      fontSize: "20px"
+    });
 
     gift.appendChild(sparkle);
 
-    setTimeout(() => sparkle.remove(), 1500);
+    setTimeout(() => {
+      sparkle.remove();
+    }, 1300);
   }
 }
+
+/* ==============================
+   RESET CAKE
+================================ */
 
 function resetCake() {
   clearTimeout(candleTimer);
+  clearTimeout(windTimer);
+
   candleBlown = false;
 
-  document.querySelectorAll(".flame").forEach(flame => {
+  document.querySelectorAll("#cakeArea .flame").forEach(flame => {
     flame.classList.remove("off");
   });
 
-  document.querySelectorAll(".smoke, .magic-particle").forEach(item => {
-    item.remove();
+  document.querySelectorAll(
+    "#cakeArea .smoke, #cakeArea .magic-particle"
+  ).forEach(element => {
+    element.remove();
   });
 
-  const text = document.getElementById("blowText");
-  const wish = document.getElementById("wishMessage");
-  const button = document.querySelector("#page2 .next-btn");
+  const blowText = document.getElementById("blowText");
+  const wishMessage = document.getElementById("wishMessage");
+  const nextButton = document.querySelector("#page2 .next-btn");
 
-  if (text) {
-    text.textContent = "মোমবাতিগুলো নিভিয়ে দাও! 💨";
+  if (blowText) {
+    blowText.textContent = "মোমবাতিগুলো জ্বলছে... 💗";
   }
 
-  if (wish) wish.classList.add("hidden");
-  if (button) button.classList.add("hidden");
+  if (wishMessage) {
+    wishMessage.classList.add("hidden");
+  }
+
+  if (nextButton) {
+    nextButton.classList.add("hidden");
+  }
 }
 
-// পেজ লোড হলে প্রথম পেজ দেখাবে
+/* ==============================
+   WEBSITE INITIALIZATION
+================================ */
+
 document.addEventListener("DOMContentLoaded", () => {
+
   showPage(1);
 
+  // অল্প অল্প করে হার্ট তৈরি হবে
   setInterval(() => {
-    if (currentPage === 7) return;
+    if (currentPageNumber === 7) return;
+
     createHeart();
-  }, 1800);
+  }, 3500);
+
 });
