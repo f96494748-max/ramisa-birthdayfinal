@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>শুভ জন্মদিন রামিসা 💗</title>
+  <meta name="theme-color" content="#fff0f5">
+  <title>শুভ জন্মদিন, রামিসা! ❤️</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -14,301 +16,247 @@
     <source src="background-music.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Music Control -->
-  <button id="musicToggle" class="music-toggle" aria-label="গান চালু বা বন্ধ">
-    ♫
+  <!-- Music Button -->
+  <button class="music-btn" onclick="toggleMusic()" aria-label="গান চালু বা বন্ধ করো">
+    🎵
   </button>
 
-  <!-- Floating Hearts -->
-  <div class="hearts" id="hearts"></div>
-
-  <main class="website">
-
-    <!-- PAGE 1 -->
-    <section class="page active" id="page1">
-      <div class="content">
-
-        <p class="small-title">একজন বিশেষ মানুষের জন্য বিশেষ দিন</p>
-
-        <div class="hero-frame">
-          <img src="cover.jpg" alt="রামিসা" class="hero-image">
-        </div>
-
-        <h1>শুভ জন্মদিন, রামিসা 💗</h1>
-
-        <p class="description">
-          আজকের দিনটা শুধুই তোমার।
-          তোমার জন্য সাজানো কিছু সুন্দর মুহূর্ত
-          অপেক্ষা করছে।
-        </p>
-
-        <button class="primary-btn" onclick="startSurprise()">
-          শুরু করা যাক ✨
-        </button>
-
-      </div>
-    </section>
-
-    <!-- PAGE 2: CAKE -->
-    <section class="page" id="page2">
-      <div class="content">
-
-        <p class="small-title">আজকের দিনটা একটু জাদুময় হোক ✨</p>
-
-        <h1>একটা ইচ্ছা করো... 🕯️</h1>
-
-        <p class="description">
-          চোখ বন্ধ করো, তোমার মনের ইচ্ছেটা ভাবো,
-          তারপর মোমবাতিগুলো নিভিয়ে দাও।
-        </p>
-
-        <div class="cake-area" id="cakeArea">
-
-          <div class="candles">
-            <div class="candle candle-left">
-              <div class="flame"></div>
-            </div>
-
-            <div class="candle candle-middle">
-              <div class="flame"></div>
-            </div>
-
-            <div class="candle candle-right">
-              <div class="flame"></div>
-            </div>
-          </div>
-
-          <div class="cake">
-            <div class="cake-top"></div>
-            <div class="cake-layer layer-one"></div>
-            <div class="cake-layer layer-two"></div>
-            <div class="cake-base"></div>
-          </div>
-
-        </div>
-
-        <p id="blowText" class="blow-text">
-          🎤 মাইক্রোফোনে ফুঁ দাও
-        </p>
-
-        <p id="wishMessage" class="wish-message hidden">
-          তোমার সব ইচ্ছা পূরণ হোক। 💗
-        </p>
-
-        <button class="primary-btn next-btn hidden" onclick="nextPage()">
-          পরের পৃষ্ঠা →
-        </button>
-
-      </div>
-    </section>
-
-    <!-- PAGE 3: MEMORIES -->
-    <section class="page" id="page3">
-      <div class="content">
-
-        <p class="small-title">ছোট ছোট স্মৃতি</p>
-
-        <h1>স্মৃতির পাতায় তুমি 💌</h1>
-
-        <p class="description">
-          কিছু ছবি, কিছু মুহূর্ত,
-          আর অনেক সুন্দর স্মৃতি।
-        </p>
-
-        <div class="photo-gallery">
-
-          <div class="polaroid">
-            <img src="photo1.jpg" alt="স্মৃতি ১">
-            <p>সুন্দর একটি মুহূর্ত 💗</p>
-          </div>
-
-          <div class="polaroid">
-            <img src="photo2.jpg" alt="স্মৃতি ২">
-            <p>একটি প্রিয় স্মৃতি ✨</p>
-          </div>
-
-          <div class="polaroid">
-            <img src="photo3.jpg" alt="স্মৃতি ৩">
-            <p>মনে রাখার মতো দিন 🌸</p>
-          </div>
-
-          <div class="polaroid">
-            <img src="photo4.jpg" alt="স্মৃতি ৪">
-            <p>আরও একটি সুন্দর মুহূর্ত 💕</p>
-          </div>
-
-        </div>
-
-        <button class="primary-btn" onclick="nextPage()">
-          পরের পৃষ্ঠা →
-        </button>
-
-      </div>
-    </section>
-
-    <!-- PAGE 4: LETTER -->
-    <section class="page" id="page4">
-      <div class="content">
-
-        <p class="small-title">তোমার জন্য একটি চিঠি</p>
-
-        <h1>তোমার জন্য কিছু কথা 💌</h1>
-
-        <div class="letter-box">
-
-          <p>প্রিয় রামিসা,</p>
-
-          <p>
-            আজ তোমার জন্মদিন। তোমাকে নিয়ে কিছু কথা,
-            কিছু অনুভূতি আর কিছু ছোট ছোট স্বপ্ন
-            এই চিঠিতে রেখে দিলাম।
-          </p>
-
-          <p>
-            তোমার প্রতিটি দিন সুন্দর হোক,
-            তোমার মুখের হাসিটা সবসময় অটুট থাকুক।
-          </p>
-
-          <p>শুভ জন্মদিন। ❤️</p>
-
-        </div>
-
-        <button class="primary-btn" onclick="nextPage()">
-          পরের পৃষ্ঠা →
-        </button>
-
-      </div>
-    </section>
-
-    <!-- PAGE 5: MESSAGE CARDS -->
-    <section class="page" id="page5">
-      <div class="content">
-
-        <p class="small-title">কিছু মনের কথা</p>
-
-        <h1>চারটি ছোট্ট অনুভূতি 💗</h1>
-
-        <div class="message-cards">
-
-          <div class="message-card" onclick="openCard(this)">
-            <div class="card-front">১</div>
-            <div class="card-back">তুমি অনেক সুন্দর একজন মানুষ। 🌸</div>
-          </div>
-
-          <div class="message-card" onclick="openCard(this)">
-            <div class="card-front">২</div>
-            <div class="card-back">তোমার হাসিটা সবসময় এমন থাকুক। ❤️</div>
-          </div>
-
-          <div class="message-card" onclick="openCard(this)">
-            <div class="card-front">৩</div>
-            <div class="card-back">তোমার সব স্বপ্ন পূরণ হোক। ✨</div>
-          </div>
-
-          <div class="message-card" onclick="openCard(this)">
-            <div class="card-front">৪</div>
-            <div class="card-back">তুমি সবসময় ভালো থেকো। 🫶</div>
-          </div>
-
-        </div>
-
-        <button class="primary-btn" onclick="nextPage()">
-          পরের পৃষ্ঠা →
-        </button>
-
-      </div>
-    </section>
-
-    <!-- PAGE 6: GIFTS -->
-    <section class="page" id="page6">
-      <div class="content">
-
-        <p class="small-title">তোমার জন্য কিছু একটা</p>
-
-        <h1>তোমার জন্য ছোট্ট সারপ্রাইজ 🎁</h1>
-
-        <p class="description">
-          তিনটি উপহার আছে এখানে।
-          এক এক করে খুলে দেখো।
-        </p>
-
-        <div class="gift-container">
-
-          <div class="gift" onclick="openGift(this)">
-            🎁
-            <p>উপহার ১</p>
-            <div class="gift-message hidden">
-              তোমার জন্য একগুচ্ছ ভালোবাসা। 💗
-            </div>
-          </div>
-
-          <div class="gift" onclick="openGift(this)">
-            🎁
-            <p>উপহার ২</p>
-            <div class="gift-message hidden">
-              অনেক সুন্দর দিনের শুভকামনা। ✨
-            </div>
-          </div>
-
-          <div class="gift" onclick="openGift(this)">
-            🎁
-            <p>উপহার ৩</p>
-            <div class="gift-message hidden">
-              তোমার সব স্বপ্ন সত্যি হোক। 🌷
-            </div>
-          </div>
-
-        </div>
-
-        <button class="primary-btn" onclick="nextPage()">
-          শেষ সারপ্রাইজ →
-        </button>
-
-      </div>
-    </section>
-
-    <!-- PAGE 7: FINAL -->
-    <section class="page" id="page7">
-      <div class="content">
-
-        <p class="small-title">শেষে তোমার জন্য কিছু কথা</p>
-
-        <div class="final-frame">
-          <img src="final.jpg" alt="জন্মদিনের স্মৃতি">
-        </div>
-
-        <h1>শুভ জন্মদিন, আমার প্রিয় মানুষ ❤️</h1>
-
-        <p class="description">
-          তোমার জীবনের প্রতিটি দিন ভালোবাসা,
-          আনন্দ আর সুন্দর মুহূর্তে ভরে উঠুক।
-        </p>
-
-        <h2 class="final-love">
-          অনেক অনেক ভালোবাসা তোমার জন্য। 💗
-        </h2>
-
-        <p class="credit">
-          Made &amp; Designed by Tusar
-        </p>
-
-      </div>
-    </section>
-
-  </main>
-
   <!-- Page Counter -->
-  <div class="page-counter">
-    <span id="currentPage">1</span> / 7
-  </div>
+  <div id="currentPage">1 / 7</div>
+
+  <!-- PAGE 1 -->
+  <section class="page active" id="page1">
+    <div class="page-content">
+      <h1>শুভ জন্মদিন, রামিসা! ❤️</h1>
+      <p>আজকের দিনটা শুধুই তোমার জন্য।</p>
+
+      <div class="photo-frame">
+        <img src="cover.jpg" alt="রামিসার ছবি">
+      </div>
+
+      <p>তোমার জন্য ছোট্ট একটা সারপ্রাইজ আছে! 🥰</p>
+
+      <button class="main-btn" onclick="startSurprise()">
+        সারপ্রাইজ দেখো 💖
+      </button>
+    </div>
+  </section>
+
+  <!-- PAGE 2 -->
+  <section class="page" id="page2">
+    <div class="page-content">
+      <h2>তোমার জন্য ছোট্ট একটা কেক! 🎂</h2>
+      <p>একটু অপেক্ষা করো, মোমবাতিগুলো জ্বলুক।</p>
+
+      <div class="cake-area" id="cakeArea">
+        <div class="candles">
+          <div class="candle">
+            <div class="flame"></div>
+          </div>
+          <div class="candle">
+            <div class="flame"></div>
+          </div>
+          <div class="candle">
+            <div class="flame"></div>
+          </div>
+        </div>
+
+        <div class="cake">
+          <div class="cake-top"></div>
+          <div class="cake-middle"></div>
+          <div class="cake-bottom"></div>
+        </div>
+      </div>
+
+      <p id="blowText">মোমবাতিগুলো জ্বলছে... 💗</p>
+
+      <div id="wishMessage" class="wish-message hidden">
+        শুভ জন্মদিন, প্রিয় রামিসা! 🎉
+        <br>
+        তোমার প্রতিটি স্বপ্ন পূরণ হোক। 💖
+      </div>
+
+      <button class="next-btn hidden" onclick="nextPage()">
+        পরের পৃষ্ঠা →
+      </button>
+    </div>
+  </section>
+
+  <!-- PAGE 3 -->
+  <section class="page" id="page3">
+    <div class="page-content">
+      <h2>কিছু সুন্দর স্মৃতি 📸</h2>
+      <p>এই মুহূর্তগুলো সবসময় সুন্দর হয়ে থাকুক।</p>
+
+      <div class="gallery">
+        <div class="photo-frame">
+          <img src="photo1.jpg" alt="স্মৃতি ১">
+        </div>
+        <div class="photo-frame">
+          <img src="photo2.jpg" alt="স্মৃতি ২">
+        </div>
+        <div class="photo-frame">
+          <img src="photo3.jpg" alt="স্মৃতি ৩">
+        </div>
+        <div class="photo-frame">
+          <img src="photo4.jpg" alt="স্মৃতি ৪">
+        </div>
+      </div>
+
+      <button class="next-btn" onclick="nextPage()">পরের পৃষ্ঠা →</button>
+    </div>
+  </section>
+
+  <!-- PAGE 4 -->
+  <section class="page" id="page4">
+    <div class="page-content">
+      <h2>তোমার জন্য কিছু কথা 💌</h2>
+
+      <div class="letter">
+        <p>
+          প্রিয় রামিসা,
+          <br><br>
+          তোমার জীবনের প্রতিটি সকাল হোক সুন্দর,
+          প্রতিটি বিকেল হোক আনন্দময়।
+          তোমার মুখের হাসিটা যেন কখনো হারিয়ে না যায়।
+          <br><br>
+          জীবনের প্রতিটি পথে তুমি খুঁজে পাও
+          ভালোবাসা, শান্তি আর অফুরন্ত সুখ।
+          <br><br>
+          অনেক অনেক ভালোবাসা ও শুভকামনা। ❤️
+        </p>
+      </div>
+
+      <button class="next-btn" onclick="nextPage()">পরের পৃষ্ঠা →</button>
+    </div>
+  </section>
+
+  <!-- PAGE 5 -->
+  <section class="page" id="page5">
+    <div class="page-content">
+      <h2>তোমার জন্য চারটি অনুভূতি 💗</h2>
+      <p>প্রতিটি কার্ডে ক্লিক করে দেখো।</p>
+
+      <div class="cards-container">
+
+        <div class="flip-card" onclick="openCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span>💖</span>
+              <h3>ভালোবাসা</h3>
+            </div>
+            <div class="flip-card-back">
+              <p>তোমার হাসিই আমার সবচেয়ে প্রিয়। ❤️</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span>🌸</span>
+              <h3>মায়া</h3>
+            </div>
+            <div class="flip-card-back">
+              <p>তুমি থাকলেই সবকিছু সুন্দর লাগে। 🌸</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span>✨</span>
+              <h3>স্বপ্ন</h3>
+            </div>
+            <div class="flip-card-back">
+              <p>তোমার সব স্বপ্ন পূরণ হোক। ✨</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span>🥰</span>
+              <h3>সুখ</h3>
+            </div>
+            <div class="flip-card-back">
+              <p>তোমার জীবন ভরে উঠুক সুখে। 🥰</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="next-btn" onclick="nextPage()">পরের পৃষ্ঠা →</button>
+    </div>
+  </section>
+
+  <!-- PAGE 6 -->
+  <section class="page" id="page6">
+    <div class="page-content">
+      <h2>তোমার জন্য তিনটি উপহার 🎁</h2>
+      <p>এক এক করে উপহারগুলো খোলো।</p>
+
+      <div class="gifts-container">
+
+        <div class="gift" onclick="openGift(this)">
+          <div class="gift-box">🎁</div>
+          <h3>প্রথম উপহার</h3>
+          <p class="gift-message hidden">
+            তোমার জন্য এক আকাশ ভালোবাসা! ❤️
+          </p>
+        </div>
+
+        <div class="gift" onclick="openGift(this)">
+          <div class="gift-box">🎁</div>
+          <h3>দ্বিতীয় উপহার</h3>
+          <p class="gift-message hidden">
+            তোমার প্রতিটি দিন হোক আনন্দে ভরা! 🌸
+          </p>
+        </div>
+
+        <div class="gift" onclick="openGift(this)">
+          <div class="gift-box">🎁</div>
+          <h3>তৃতীয় উপহার</h3>
+          <p class="gift-message hidden">
+            তোমার সব ইচ্ছা পূরণ হোক! ✨
+          </p>
+        </div>
+
+      </div>
+
+      <button class="next-btn" onclick="nextPage()">শেষ পৃষ্ঠা →</button>
+    </div>
+  </section>
+
+  <!-- PAGE 7 -->
+  <section class="page" id="page7">
+    <div class="page-content">
+      <h2>আবারও শুভ জন্মদিন! ❤️</h2>
+
+      <div class="photo-frame final-frame">
+        <img src="final.jpg" alt="শেষ স্মৃতি">
+      </div>
+
+      <p>
+        তোমার জীবন হোক রঙিন,
+        সুন্দর আর ভালোবাসায় পরিপূর্ণ। 💖
+      </p>
+
+      <h3>অনেক অনেক শুভকামনা! 🥰</h3>
+
+      <p class="credit">Made &amp; Designed by Tusar</p>
+    </div>
+  </section>
 
   <!-- Navigation -->
   <div class="navigation">
-    <button id="prevBtn" onclick="prevPage()">←</button>
-    <button id="nextBtn" onclick="nextPage()">→</button>
+    <button id="prevBtn" onclick="prevPage()">← আগের পৃষ্ঠা</button>
+    <button id="nextBtn" onclick="nextPage()">পরের পৃষ্ঠা →</button>
   </div>
 
   <script src="script.js"></script>
-
 </body>
 </html>
