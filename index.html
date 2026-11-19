@@ -22,7 +22,7 @@
   </button>
 
   <!-- Page Counter -->
-  <div id="currentPage">1 / 7</div>
+  <div id="currentPage">1 / 6</div>
 
   <!-- PAGE 1 -->
   <section class="page active" id="page1">
@@ -82,33 +82,8 @@
     </div>
   </section>
 
-  <!-- PAGE 3 -->
+  <!-- PAGE 3: LOVE LETTER -->
   <section class="page" id="page3">
-    <div class="page-content">
-      <h2>কিছু সুন্দর স্মৃতি 📸</h2>
-      <p>এই মুহূর্তগুলো সবসময় সুন্দর হয়ে থাকুক।</p>
-
-      <div class="gallery">
-        <div class="photo-frame">
-          <img src="photo1.jpg" alt="স্মৃতি ১">
-        </div>
-        <div class="photo-frame">
-          <img src="photo2.jpg" alt="স্মৃতি ২">
-        </div>
-        <div class="photo-frame">
-          <img src="photo3.jpg" alt="স্মৃতি ৩">
-        </div>
-        <div class="photo-frame">
-          <img src="photo4.jpg" alt="স্মৃতি ৪">
-        </div>
-      </div>
-
-      <button class="next-btn" onclick="nextPage()">পরের পৃষ্ঠা →</button>
-    </div>
-  </section>
-
-  <!-- PAGE 4 -->
-  <section class="page" id="page4">
     <div class="page-content">
       <h2>তোমার জন্য কিছু কথা 💌</h2>
 
@@ -116,9 +91,9 @@
         <p>
           প্রিয় রামিসা,
           <br><br>
-যদি সামর্থ্য থাকত, তবে শহরের প্রতিটি বিলবোর্ডে, প্রতিটি সংবাদপত্রের পাতায় আজ তোমার জন্মদিনের শুভেচ্ছা ছাপিয়ে দিতাম।
-আমার সামর্থ্য যে এতটুকুই! তাই এই ছোট্ট লেখাতেই জানিয়ে রাখলাম—পৃথিবীর এত মানুষের ভিড়ে তুমি আমার সবচেয়ে সুন্দরী ও স্নিগ্ধ বান্ধবী। ❤️
-শুভ জন্মদিন, প্রিয় রামিসা! 💌
+          যদি সামর্থ্য থাকত, তবে শহরের প্রতিটি বিলবোর্ডে, প্রতিটি সংবাদপত্রের পাতায় আজ তোমার জন্মদিনের শুভেচ্ছা ছাপিয়ে দিতাম।
+          আমার সামর্থ্য যে এতটুকুই! তাই এই ছোট্ট লেখাতেই জানিয়ে রাখলাম—পৃথিবীর এত মানুষের ভিড়ে তুমি আমার সবচেয়ে সুন্দরী ও স্নিগ্ধ বান্ধবী। ❤️
+          শুভ জন্মদিন, প্রিয় রামিসা! 💌
           <br><br>
           জীবনের প্রতিটি পথে তুমি খুঁজে পাও
           ভালোবাসা, শান্তি আর অফুরন্ত সুখ।
@@ -131,8 +106,8 @@
     </div>
   </section>
 
-  <!-- PAGE 5 -->
-  <section class="page" id="page5">
+  <!-- PAGE 4: FOUR FEELINGS -->
+  <section class="page" id="page4">
     <div class="page-content">
       <h2>তোমার জন্য চারটি অনুভূতি 💗</h2>
       <p>প্রতিটি কার্ডে ক্লিক করে দেখো।</p>
@@ -147,7 +122,7 @@
             </div>
             <div class="flip-card-back">
               <p>" Last request" <br>
-তুমি ভুলে যেও না আমাকে, আমি ভালোবাসি তোমাকে। 💌</p>
+              তুমি ভুলে যেও না আমাকে, আমি ভালোবাসি তোমাকে। 💌</p>
             </div>
           </div>
         </div>
@@ -194,36 +169,48 @@
     </div>
   </section>
 
-  <!-- PAGE 6 -->
-  <section class="page" id="page6">
+  <!-- PAGE 5: SURPRISE GIFTS -->
+  <section class="page" id="page5">
     <div class="page-content">
       <h2>তোমার জন্য তিনটি উপহার 🎁</h2>
       <p>এক এক করে উপহারগুলো খোলো।</p>
 
       <div class="gifts-container">
 
+        <!-- FIRST GIFT -->
         <div class="gift" onclick="openGift(this)">
           <div class="gift-box">🎁</div>
           <h3>প্রথম উপহার</h3>
-          <p class="gift-message hidden">
-            তোমার জন্য এক আকাশ ভালোবাসা! ❤️
-          </p>
+          <img
+            class="gift-image hidden"
+            src="gift1.jpg"
+            alt="প্রথম উপহার"
+            loading="lazy"
+          >
         </div>
 
+        <!-- SECOND GIFT -->
         <div class="gift" onclick="openGift(this)">
           <div class="gift-box">🎁</div>
           <h3>দ্বিতীয় উপহার</h3>
-          <p class="gift-message hidden">
-            তোমার প্রতিটি দিন হোক আনন্দে ভরা! 🌸
-          </p>
+          <img
+            class="gift-image hidden"
+            src="gift2.jpg"
+            alt="দ্বিতীয় উপহার"
+            loading="lazy"
+          >
         </div>
 
+        <!-- THIRD GIFT -->
         <div class="gift" onclick="openGift(this)">
           <div class="gift-box">🎁</div>
           <h3>তৃতীয় উপহার</h3>
-          <p class="gift-message hidden">
-            তোমার সব ইচ্ছা পূরণ হোক! ✨
-          </p>
+          <img
+            class="gift-image hidden"
+            src="gift3.jpg"
+            alt="তৃতীয় উপহার"
+            loading="lazy"
+          >
         </div>
 
       </div>
@@ -232,8 +219,8 @@
     </div>
   </section>
 
-  <!-- PAGE 7 -->
-  <section class="page" id="page7">
+  <!-- PAGE 6: FINAL SURPRISE -->
+  <section class="page" id="page6">
     <div class="page-content">
       <h2>আবারও শুভ জন্মদিন! ❤️</h2>
 
@@ -259,5 +246,6 @@
   </div>
 
   <script src="script.js"></script>
+
 </body>
 </html>
