@@ -3,11 +3,11 @@
 
 /* ==============================
    RAMISA BIRTHDAY WEBSITE
-   Complete JavaScript
+   UPDATED 6 PAGE VERSION
 ================================ */
 
 let currentPageNumber = 1;
-const totalPages = 7;
+const totalPages = 6;
 
 let candleBlown = false;
 let candleTimer = null;
@@ -317,7 +317,7 @@ function createHeart() {
 }
 
 /* ==============================
-   PAGE 5 - FLIP CARDS
+   PAGE 4 - FLIP CARDS
 ================================ */
 
 function openCard(card) {
@@ -329,15 +329,15 @@ function openCard(card) {
 }
 
 /* ==============================
-   PAGE 6 - OPEN GIFTS
+   PAGE 5 - OPEN GIFTS
 ================================ */
 
 function openGift(gift) {
   if (!gift) return;
 
-  const message = gift.querySelector(".gift-message");
+  const image = gift.querySelector(".gift-image");
 
-  if (!message) return;
+  if (!image) return;
 
   const alreadyOpened = gift.classList.contains("opened");
 
@@ -345,7 +345,8 @@ function openGift(gift) {
 
   gift.classList.add("opened");
 
-  message.classList.remove("hidden");
+  // ছবির পরিবর্তে কোনো লেখা দেখানো হবে না
+  image.classList.remove("hidden");
 
   playSound("gift");
 
@@ -427,7 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // অল্প অল্প করে হার্ট তৈরি হবে
   setInterval(() => {
-    if (currentPageNumber === 7) return;
+    if (currentPageNumber === 6) return;
 
     createHeart();
   }, 3500);
